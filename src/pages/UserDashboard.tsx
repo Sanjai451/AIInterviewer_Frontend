@@ -47,7 +47,7 @@ export default function UserDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-white-500 text-black">
+    <div className="min-h-screen bg-gradient-to-r from-slate-50 to-slate-50 text-black">
       {/* Header */}
       <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/80 backdrop-blur">
         <div className="container mx-auto flex items-center justify-between px-4 py-4">

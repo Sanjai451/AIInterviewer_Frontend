@@ -235,7 +235,7 @@ export default function MCQInterview() {
   const progress = ((currentQuestion + 1) / questions.length) * 100;
 
   return (
-    <div className="interview-fullscreen flex flex-col">
+    <div className="interview-fullscreen flex flex-col h-screen">
       {/* Header */}
       <header className="border-b border-border bg-card/80 backdrop-blur-sm px-6 py-4">
         <div className="flex items-center justify-between max-w-4xl mx-auto">
@@ -262,7 +262,8 @@ export default function MCQInterview() {
       </div>
 
       {/* Question */}
-      <main className="flex-1 flex items-center justify-center p-6">
+      {/* <main className="flex-1 flex items-center justify-center p-6"> */}
+      <main className="flex-1 overflow-y-auto p-6 flex items-center justify-center">
         <Card className="glass max-w-2xl w-full">
           <CardHeader>
             <div className="flex items-center justify-between">
@@ -297,7 +298,9 @@ export default function MCQInterview() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-border bg-card/80 backdrop-blur-sm px-6 py-4">
+      {/* <footer className="border-t border-border bg-card/80 backdrop-blur-sm px-6 py-4"> */}
+      <footer className="sticky bottom-0 border-t border-border bg-card/90 backdrop-blur-sm px-6 py-4">
+
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <Button
             onClick={prevQuestion}

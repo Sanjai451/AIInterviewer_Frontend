@@ -88,7 +88,7 @@ export default function HRDashboard() {
     : 0;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-r from-slate-50 to-slate-50">
       {/* Header */}
       <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -109,7 +109,7 @@ export default function HRDashboard() {
                   Assign Interview
                 </Button>
               </DialogTrigger>
-              <DialogContent className="glass">
+              <DialogContent className="glass bg-gradient-to-r from-slate-50 to-slate-50">
                 <DialogHeader>
                   <DialogTitle>Assign New Interview</DialogTitle>
                   <DialogDescription>Create and assign an interview to a candidate</DialogDescription>
@@ -195,7 +195,7 @@ export default function HRDashboard() {
               </div>
             </CardContent>
           </Card>
-          <Card className="glass">
+          {/* <Card className="glass">
             <CardContent className="pt-6">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-xl bg-yellow-500/10 flex items-center justify-center">
@@ -207,8 +207,8 @@ export default function HRDashboard() {
                 </div>
               </div>
             </CardContent>
-          </Card>
-          <Card className="glass">
+          </Card> */}
+          {/* <Card className="glass">
             <CardContent className="pt-6">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center">
@@ -233,7 +233,7 @@ export default function HRDashboard() {
                 </div>
               </div>
             </CardContent>
-          </Card>
+          </Card> */}
         </div>
 
         {/* Interviews List */}

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useInterview } from '../contexts/InterviewContext';
 import { Button } from '../components/ui/button';
@@ -28,6 +28,112 @@ export default function InPersonInterview() {
   const [isStarted, setIsStarted] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
   const [score, setScore] = useState(0);
+
+
+  const hasLeftTab = useRef(false);
+  const warningCount = useRef(0);
+  const tabSwitchTimer = useRef<number | null>(null);
+
+  const forceTerminateInterview = useCallback(() => {
+  setIsCompleted(true);
+  setScore(0);
+
+  if (id) {
+    updateInterviewStatus(id, 'completed', 0, maxScore);
+  }
+
+  alert('Interview terminated due to malpractice.');
+  navigate('/user/dashboard');
+}, [id, navigate, updateInterviewStatus]);
+
+useEffect(() => {
+  if (!isStarted || isCompleted) return;
+
+  const handleVisibilityChange = () => {
+  if (document.hidden && isStarted && !isCompleted) {
+    hasLeftTab.current = true;
+
+    tabSwitchTimer.current = window.setTimeout(() => {
+      forceTerminateInterview();
+    }, 3000);
+  }
+
+  if (!document.hidden && hasLeftTab.current) {
+    hasLeftTab.current = false;
+
+    if (tabSwitchTimer.current) {
+      clearTimeout(tabSwitchTimer.current);
+      tabSwitchTimer.current = null;
+    }
+
+    warningCount.current += 1;
+
+    if (warningCount.current <= 2) {
+      alert(`Warning ${warningCount.current}/2: Do not switch tabs.`);
+    } else {
+      forceTerminateInterview();
+    }
+  }
+};
+
+
+
+  document.addEventListener('visibilitychange', handleVisibilityChange);
+
+  return () => {
+    document.removeEventListener('visibilitychange', handleVisibilityChange);
+    if (tabSwitchTimer.current) clearTimeout(tabSwitchTimer.current);
+  };
+}, [isStarted, isCompleted, forceTerminateInterview]);
+
+useEffect(() => {
+  if (!isStarted || isCompleted) return;
+
+  const handleFullscreenChange = () => {
+    if (!document.fullscreenElement) {
+      warningCount.current += 1;
+
+      if (warningCount.current <= 2) {
+        alert(`Warning ${warningCount.current}/2: Fullscreen exit detected.`);
+        document.documentElement.requestFullscreen?.();
+      } else {
+        forceTerminateInterview();
+      }
+    }
+  };
+
+  document.addEventListener('fullscreenchange', handleFullscreenChange);
+
+  return () => {
+    document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  };
+}, [isStarted, isCompleted, forceTerminateInterview]);
+
+useEffect(() => {
+  if (!isStarted) return;
+
+  // RESET malpractice tracking
+  warningCount.current = 0;
+  hasLeftTab.current = false;
+
+  if (tabSwitchTimer.current) {
+    clearTimeout(tabSwitchTimer.current);
+    tabSwitchTimer.current = null;
+  }
+}, [isStarted]);
+
+useEffect(() => {
+  if (!isCompleted) return;
+
+  warningCount.current = 0;
+
+  if (tabSwitchTimer.current) {
+    clearTimeout(tabSwitchTimer.current);
+    tabSwitchTimer.current = null;
+  }
+}, [isCompleted]);
+
+
 
   const maxScore = questions.reduce((acc, q) => acc + q.points, 0);
 
@@ -231,7 +337,7 @@ export default function InPersonInterview() {
   const wordCount = answers[currentQuestion].split(/\s+/).filter(w => w.length > 0).length;
 
   return (
-    <div className="interview-fullscreen flex flex-col">
+    <div className="interview-fullscreen flex flex-col ">
       {/* Header */}
       <header className="border-b border-border bg-card/80 backdrop-blur-sm px-6 py-4">
         <div className="flex items-center justify-between max-w-4xl mx-auto">
