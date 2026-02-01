@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, type ReactNode } from 'react';
+import { createContext, useContext, useState, type ReactNode } from 'react';
 
 type UserRole = 'user' | 'hr' | 'admin';
 
@@ -43,6 +43,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (email: string, password: string, role: UserRole): Promise<boolean> => {
     // Mock login - in real app, this would call the backend
+    console.log(password)
     const foundUser = mockUsers.find(u => u.email === email && u.role === role);
     if (foundUser) {
       setUser(foundUser);
@@ -63,6 +64,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const register = async (name: string, email: string, password: string, role: UserRole): Promise<boolean> => {
     // Mock registration
+    console.log(password)
     const newUser: User = {
       id: crypto.randomUUID(),
       email,

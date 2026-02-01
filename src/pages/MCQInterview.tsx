@@ -14,13 +14,13 @@ import {
   CheckCircle
 } from 'lucide-react';
 
-interface MCQQuestion {
-  id: string;
-  question: string;
-  options: string[];
-  correctAnswer: number;
-  points: number;
-}
+// interface MCQQuestion {
+//   id: string;
+//   question: string;
+//   options: string[];
+//   correctAnswer: number;
+//   points: number;
+// }
 
 export default function MCQInterview() {
   const { id } = useParams<{ id: string }>();

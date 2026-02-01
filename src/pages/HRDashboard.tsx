@@ -17,9 +17,7 @@ import {
   Users,
   FileText, 
   MessageSquare, 
-  CheckCircle,
   Clock,
-  TrendingUp
 } from 'lucide-react';
 
 // import { InterviewType } from '../types';
@@ -29,6 +27,7 @@ type InterviewType = 'mcq' | 'in-person';
 export default function HRDashboard() {
   const { user, logout } = useAuth();
   const { interviews, addInterview, getInterviewsCreatedBy } = useInterview();
+  console.log(interviews)
   const navigate = useNavigate();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   
@@ -40,8 +39,8 @@ export default function HRDashboard() {
   const [assignedToEmail, setAssignedToEmail] = useState('');
 
   const myInterviews = user ? getInterviewsCreatedBy(user.id) : [];
-  const completedInterviews = myInterviews.filter(i => i.status === 'completed');
-  const pendingInterviews = myInterviews.filter(i => i.status === 'pending');
+  // const completedInterviews = myInterviews.filter(i => i.status === 'completed');
+  // const pendingInterviews = myInterviews.filter(i => i.status === 'pending');
 
   const handleLogout = () => {
     logout();
@@ -83,9 +82,9 @@ export default function HRDashboard() {
     }
   };
 
-  const averageScore = completedInterviews.length > 0
-    ? Math.round(completedInterviews.reduce((acc, i) => acc + ((i.score || 0) / (i.maxScore || 1)) * 100, 0) / completedInterviews.length)
-    : 0;
+  // const averageScore = completedInterviews.length > 0
+  //   ? Math.round(completedInterviews.reduce((acc, i) => acc + ((i.score || 0) / (i.maxScore || 1)) * 100, 0) / completedInterviews.length)
+  //   : 0;
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-slate-50 to-slate-50">
